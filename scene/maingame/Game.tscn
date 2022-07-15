@@ -1,0 +1,198 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://asset/gfx/ingame.png" type="Texture" id=1]
+[ext_resource path="res://scene/maingame/Game.gd" type="Script" id=2]
+[ext_resource path="res://asset/fnt/x12y16pxMaruMonica.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="TileSet" id=1]
+0/name = "0"
+0/texture = ExtResource( 1 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "1"
+1/texture = ExtResource( 1 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 16, 0, 16, 16 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+2/name = "2"
+2/texture = ExtResource( 1 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 32, 0, 16, 16 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
+3/name = "3"
+3/texture = ExtResource( 1 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 48, 0, 16, 16 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
+4/name = "4"
+4/texture = ExtResource( 1 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 0, 16, 16, 16 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape_one_way = false
+4/shape_one_way_margin = 0.0
+4/shapes = [  ]
+4/z_index = 0
+5/name = "5"
+5/texture = ExtResource( 1 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 16, 16, 16, 16 )
+5/tile_mode = 0
+5/occluder_offset = Vector2( 0, 0 )
+5/navigation_offset = Vector2( 0, 0 )
+5/shape_offset = Vector2( 0, 0 )
+5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+5/shape_one_way = false
+5/shape_one_way_margin = 0.0
+5/shapes = [  ]
+5/z_index = 0
+
+[sub_resource type="TileSet" id=2]
+0/name = "0"
+0/texture = ExtResource( 1 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 64, 0, 16, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "1"
+1/texture = ExtResource( 1 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 80, 0, 16, 32 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=4]
+default_font = SubResource( 3 )
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Playfield" type="Node2D" parent="."]
+position = Vector2( 68, 73 )
+
+[node name="Next" type="TileMap" parent="Playfield"]
+z_index = 20
+tile_set = SubResource( 1 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="NextDisplay" type="TileMap" parent="Playfield"]
+z_index = 20
+tile_set = SubResource( 1 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+tile_data = PoolIntArray( -327677, 1073741829, 0, -262140, 1073741829, 0, -65528, 1073741829, 0, -65527, 1073741829, 0, 131080, 1073741829, 0, 131081, 1073741829, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Field" type="TileMap" parent="Playfield"]
+tile_set = SubResource( 1 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+tile_data = PoolIntArray( 131072, 1073741824, 0, 131073, 1073741824, 0, 131074, 1073741824, 0, 131076, 1073741824, 0, 131077, 1073741824, 0, 131078, 1073741824, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FieldShadows" type="TileMap" parent="Playfield"]
+modulate = Color( 1, 1, 1, 0.745098 )
+z_index = -20
+tile_set = SubResource( 2 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FieldBG" type="TileMap" parent="Playfield"]
+modulate = Color( 1, 1, 1, 0.745098 )
+z_index = -20
+tile_set = SubResource( 2 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+tile_data = PoolIntArray( -393213, 1073741825, 0, -327678, 1073741825, 0, -327677, 1073741825, 0, -327676, 1073741825, 0, -262142, 1073741825, 0, -262141, 1073741825, 0, -262140, 1073741825, 0, -131069, 1073741825, 0, -65535, 1073741825, 0, -65534, 1073741825, 0, -65533, 1073741825, 0, -65532, 1073741825, 0, -65531, 1073741825, 0, 0, 1073741825, 0, 1, 1073741825, 0, 2, 1073741825, 0, 3, 1073741825, 0, 4, 1073741825, 0, 5, 1073741825, 0, 6, 1073741825, 0, 65536, 1073741825, 0, 65537, 1073741825, 0, 65538, 1073741825, 0, 65539, 1073741825, 0, 65540, 1073741825, 0, 65541, 1073741825, 0, 65542, 1073741825, 0, 131072, 1073741825, 0, 131073, 1073741825, 0, 131074, 1073741825, 0, 131075, 1073741825, 0, 131076, 1073741825, 0, 131077, 1073741825, 0, 131078, 1073741825, 0, 196608, 1073741825, 0, 196609, 1073741825, 0, 196610, 1073741825, 0, 196611, 1073741825, 0, 196612, 1073741825, 0, 196613, 1073741825, 0, 196614, 1073741825, 0, 262146, 1073741825, 0, 262147, 1073741825, 0, 262148, 1073741825, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="XP" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 7.0
+margin_right = 48.0
+margin_bottom = 23.0
+theme = SubResource( 4 )
+text = "XP: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
