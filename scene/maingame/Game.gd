@@ -14,7 +14,7 @@ var control_timer = 0
 var attackpower = 0
 var hp = 30
 var mhp = 30
-var playerattack = [3,2,1] 
+var playerattack = [2,6,0] 
 var ehp = 20
 var emhp = 20
 var enemyattack = [2,2,2,0]
@@ -25,69 +25,81 @@ var playerdamage = 0
 var enemydamage = 0
 
 var score = 0
+var gameactive = false
+var gameover = false
+var time = 0
 
 func _ready():
 	update_shadows()
 
 func _process(delta):
-	nextpos = bound_to_playfield(field.world_to_map(field.get_local_mouse_position()))
-	update_next()
-	if control_timer > 0:
-		control_timer -= delta
-	if attackglobaldelay > 0:
-		attackglobaldelay -= delta
+	time += delta
+	if time >= 3 and hp > 0 and ehp > 0:
+		gameactive = true
 	else:
-		if ehp > 0:
-			enemyattacktimer += enemyspeed*delta
-	if nextpieces.size() <= 1:
-		var next = [randi()%4,randi()%4]
-		nextpieces.append(next)
+		gameactive = false
+		if hp <= 0:
+			gameover = true
 	update_ui()
-	if attackpower >= 100 and attackglobaldelay <= 0:
-		attackpower -= 100
-		var attackdice = roll_individual_dice(playerattack[0],playerattack[1])
-		for dice in attackdice.size():
-			var roll = diceroll.instance()
-			#176, 8
-			roll.position = Vector2(8+16*dice,176)
-			roll.init(attackdice[dice],playerattack[1],0.2*dice)
-			add_child(roll)
-			playerdamage += attackdice[dice]
-		playerdamage += playerattack[2]
-		attackglobaldelay += 1 + 0.2*attackdice.size()
-	if enemyattacktimer >= 100 and attackglobaldelay <= 0:
-		enemyattacktimer -= 100
-		var attackdice = roll_individual_dice(enemyattack[1],enemyattack[2])
-		for dice in attackdice.size():
-			var roll = diceroll.instance()
-			#176, 8
-			roll.position = Vector2(220-16*dice,36)
-			roll.init(attackdice[dice],enemyattack[1],0.2*dice)
-			add_child(roll)
-			enemydamage += attackdice[dice]
-		enemydamage += enemyattack[3]
-		attackglobaldelay += 1 + 0.2*attackdice.size()
-		for dice in enemyattack[0]:
-			var pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
-			var attempts = 3
-			while field.get_cell(pos.x,pos.y) == 4 and attempts > 0:
-				attempts -= 1
-				pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
-			var placeanim1 = placeanim.instance()
-			placeanim1.position = field.map_to_world(pos)+Vector2(8,10)
-			field.add_child(placeanim1)
-			field.set_cell(pos.x,pos.y,4)
-	if attackglobaldelay <= 0:
-		if playerdamage >= 0:
-			ehp -= playerdamage
-			playerdamage = 0
-		if enemydamage >= 0:
-			hp -= enemydamage
-			enemydamage = 0
+	update_next()
+	if gameactive:
+		nextpos = bound_to_playfield(field.world_to_map(field.get_local_mouse_position()))
+		if control_timer > 0:
+			control_timer -= delta
+		if attackglobaldelay > 0:
+			attackglobaldelay -= delta
+		else:
+			if ehp > 0:
+				enemyattacktimer += enemyspeed*delta
+		if nextpieces.size() <= 1:
+			var next = [randi()%4,randi()%4]
+			nextpieces.append(next)
+		if attackpower >= 100 and attackglobaldelay <= 0:
+			attackpower -= 100
+			var attackdice = roll_individual_dice(playerattack[0],playerattack[1])
+			for dice in attackdice.size():
+				var roll = diceroll.instance()
+				#176, 8
+				roll.position = Vector2(8+16*dice,176)
+				roll.init(attackdice[dice],playerattack[1],0.2*dice)
+				add_child(roll)
+				playerdamage += attackdice[dice]
+			playerdamage += playerattack[2]
+			attackglobaldelay += 1 + 0.2*attackdice.size()
+		if enemyattacktimer >= 100 and attackglobaldelay <= 0:
+			enemyattacktimer -= 100
+			var attackdice = roll_individual_dice(enemyattack[1],enemyattack[2])
+			for dice in attackdice.size():
+				var roll = diceroll.instance()
+				#176, 8
+				roll.position = Vector2(220-16*dice,36)
+				roll.init(attackdice[dice],enemyattack[1],0.2*dice)
+				add_child(roll)
+				enemydamage += attackdice[dice]
+			enemydamage += enemyattack[3]
+			attackglobaldelay += 1 + 0.2*attackdice.size()
+			for dice in enemyattack[0]:
+				var pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
+				var attempts = 3
+				while field.get_cell(pos.x,pos.y) == 4 and attempts > 0:
+					attempts -= 1
+					pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
+				var placeanim1 = placeanim.instance()
+				placeanim1.position = field.map_to_world(pos)+Vector2(8,10)
+				field.add_child(placeanim1)
+				field.set_cell(pos.x,pos.y,4)
+		if attackglobaldelay <= 0:
+			if playerdamage >= 0:
+				ehp -= playerdamage
+				playerdamage = 0
+			if enemydamage >= 0:
+				hp -= enemydamage
+				enemydamage = 0
 			
 		
 	
 func _input(event):
+	if gameactive:
 		if event.is_action_pressed("action_rotate_cw_1shot") or event.is_action_pressed("action_rotate_cw"):
 			nextrotate += 1
 			nextrotate = nextrotate % 6

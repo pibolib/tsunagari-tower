@@ -100,13 +100,13 @@ color_ramp = SubResource( 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color( 1, 1, 1, 0.658824 )
-margin_left = -8.0
-margin_top = -112.0
-margin_right = 8.0
+margin_left = -4.0
+margin_top = -148.0
+margin_right = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_scale = Vector2( 0.249, 1 )
-rect_pivot_offset = Vector2( 8, 0 )
+rect_pivot_offset = Vector2( 4, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
