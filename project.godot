@@ -10,9 +10,10 @@ config_version=4
 
 [application]
 
-config/name="gmtk-jam-2022"
+config/name="Tsunagari Tower"
 run/main_scene="res://scene/menus/TitleScreen.tscn"
-config/icon="res://icon.png"
+config/icon="res://asset/gfx/icon.png"
+config/windows_native_icon="res://asset/gfx/icon.ico"
 
 [autoload]
 

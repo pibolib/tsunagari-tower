@@ -1,13 +1,13 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://asset/fnt/04B_03_.TTF" type="DynamicFontData" id=1]
-[ext_resource path="res://scene/menus/GameOver.gd" type="Script" id=2]
-[ext_resource path="res://asset/theme/GameLarge.tres" type="Theme" id=3]
-[ext_resource path="res://asset/gfx/bg.png" type="Texture" id=4]
+[ext_resource path="res://asset/gfx/bg.png" type="Texture" id=1]
+[ext_resource path="res://asset/fnt/04B_03_.TTF" type="DynamicFontData" id=2]
+[ext_resource path="res://scene/menus/Credits-Main.gd" type="Script" id=3]
+[ext_resource path="res://asset/theme/GameLarge.tres" type="Theme" id=4]
 
 [sub_resource type="TileSet" id=3]
 0/name = "bg.png 0"
-0/texture = ExtResource( 4 )
+0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 16, 16 )
@@ -21,7 +21,7 @@
 0/shapes = [  ]
 0/z_index = 0
 1/name = "bg.png 1"
-1/texture = ExtResource( 4 )
+1/texture = ExtResource( 1 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 16, 0, 16, 16 )
@@ -35,7 +35,7 @@
 1/shapes = [  ]
 1/z_index = 0
 2/name = "bg.png 2"
-2/texture = ExtResource( 4 )
+2/texture = ExtResource( 1 )
 2/tex_offset = Vector2( 0, 0 )
 2/modulate = Color( 1, 1, 1, 1 )
 2/region = Rect2( 32, 0, 16, 16 )
@@ -49,7 +49,7 @@
 2/shapes = [  ]
 2/z_index = 0
 3/name = "bg.png 3"
-3/texture = ExtResource( 4 )
+3/texture = ExtResource( 1 )
 3/tex_offset = Vector2( 0, 0 )
 3/modulate = Color( 1, 1, 1, 1 )
 3/region = Rect2( 48, 0, 16, 32 )
@@ -65,14 +65,14 @@
 
 [sub_resource type="DynamicFont" id=4]
 size = 8
-font_data = ExtResource( 1 )
+font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 8
-font_data = ExtResource( 1 )
+font_data = ExtResource( 2 )
 
-[node name="GameOver" type="Node2D"]
-script = ExtResource( 2 )
+[node name="Credits-Main" type="Node2D"]
+script = ExtResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]
 modulate = Color( 0.32549, 0.32549, 0.32549, 1 )
@@ -86,8 +86,8 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 64.0
 margin_bottom = 24.0
-theme = ExtResource( 3 )
-text = "Game Over..."
+theme = ExtResource( 4 )
+text = "Credits"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -97,11 +97,9 @@ margin_left = 8.0
 margin_top = 32.0
 margin_right = 162.0
 margin_bottom = 55.0
-theme = ExtResource( 3 )
+theme = ExtResource( 4 )
 custom_fonts/font = SubResource( 4 )
-text = "Thanks for playing!
-
-Game by pibolib (@pibolib on Twitter)
+text = "Game by pibolib (@pibolib on Twitter)
 
 Developed in less than 50 hours for GMTK Jam 2022"
 __meta__ = {
@@ -113,8 +111,7 @@ margin_left = 8.0
 margin_top = 176.0
 margin_right = 92.0
 margin_bottom = 192.0
-theme = ExtResource( 3 )
-text = "Total XP: ???"
+theme = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -124,7 +121,7 @@ margin_left = 182.0
 margin_top = 176.0
 margin_right = 240.0
 margin_bottom = 192.0
-theme = ExtResource( 3 )
+theme = ExtResource( 4 )
 custom_fonts/font = SubResource( 2 )
 shortcut_in_tooltip = false
 text = "Menu"
@@ -134,10 +131,10 @@ __meta__ = {
 
 [node name="Discord" type="Button" parent="."]
 margin_left = 8.0
-margin_top = 96.0
+margin_top = 72.0
 margin_right = 72.0
-margin_bottom = 112.0
-theme = ExtResource( 3 )
+margin_bottom = 88.0
+theme = ExtResource( 4 )
 custom_fonts/font = SubResource( 2 )
 shortcut_in_tooltip = false
 text = "Discord Server"
@@ -147,10 +144,10 @@ __meta__ = {
 
 [node name="Website" type="Button" parent="."]
 margin_left = 8.0
-margin_top = 120.0
+margin_top = 96.0
 margin_right = 72.0
-margin_bottom = 136.0
-theme = ExtResource( 3 )
+margin_bottom = 112.0
+theme = ExtResource( 4 )
 custom_fonts/font = SubResource( 2 )
 shortcut_in_tooltip = false
 text = "Website"
@@ -160,10 +157,10 @@ __meta__ = {
 
 [node name="Twitter" type="Button" parent="."]
 margin_left = 8.0
-margin_top = 144.0
+margin_top = 120.0
 margin_right = 72.0
-margin_bottom = 160.0
-theme = ExtResource( 3 )
+margin_bottom = 136.0
+theme = ExtResource( 4 )
 custom_fonts/font = SubResource( 2 )
 shortcut_in_tooltip = false
 text = "Twitter"

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://asset/fnt/04B_03_.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://scene/menus/ChooseWeapon.gd" type="Script" id=2]
 [ext_resource path="res://asset/theme/GameLarge.tres" type="Theme" id=3]
 [ext_resource path="res://asset/gfx/bg.png" type="Texture" id=4]
+[ext_resource path="res://asset/gfx/player.png" type="Texture" id=5]
 
 [sub_resource type="TileSet" id=3]
 0/name = "bg.png 0"
@@ -197,6 +198,12 @@ text = "Begin 1st stage"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 125, 168 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 16, 16 )
 
 [connection signal="pressed" from="Sword" to="." method="_on_Sword_pressed"]
 [connection signal="pressed" from="Spear" to="." method="_on_Spear_pressed"]

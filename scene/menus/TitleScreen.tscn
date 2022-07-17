@@ -38,6 +38,7 @@ __meta__ = {
 position = Vector2( 125, 100 )
 amount = 50
 lifetime = 10.0
+preprocess = 3.0
 randomness = 0.31
 texture = ExtResource( 2 )
 emission_shape = 2
@@ -84,6 +85,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Credits" type="Button" parent="Node2D"]
+margin_left = 8.0
+margin_top = 144.0
+margin_right = 64.0
+margin_bottom = 160.0
+theme = ExtResource( 4 )
+custom_fonts/font = SubResource( 3 )
+text = "Credits"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="DamageDiceLabel" type="Label" parent="Node2D"]
 margin_left = 2.0
 margin_top = 192.0
@@ -98,3 +111,4 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="Node2D/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Node2D/Credits" to="." method="_on_Credits_pressed"]

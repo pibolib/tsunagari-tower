@@ -6,3 +6,7 @@ func _ready():
 
 func _on_Button_pressed():
 	Global.to_scene = "res://scene/menus/ChooseWeapon.tscn"
+
+
+func _on_Credits_pressed():
+	Global.to_scene = "res://scene/menus/Credits-Main.tscn"

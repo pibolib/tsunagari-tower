@@ -3,6 +3,7 @@ extends Node2D
 var placeanim = preload("res://scene/fx/PlaceAnim.tscn")
 var clearanim = preload("res://scene/fx/ClearAnim.tscn")
 var diceroll = preload("res://scene/fx/DiceRoll.tscn")
+var attackanim = preload("res://scene/fx/BallTargetPoint.tscn")
 
 onready var field = $Playfield/Field
 var nextpiece = [0,0]
@@ -40,6 +41,8 @@ var time = 0
 var timetilltrans = 0
 var statusactive = false
 var rewarded = false
+var pshake = 0
+var eshake = 0
 
 func _ready():
 	if Global.stage == 9:
@@ -61,11 +64,20 @@ func _ready():
 		Global.enemystats[Global.stage].ATK_DMG_MOD
 	]
 	$EnemySprite.texture = Global.enemystats[Global.stage].SPRITE_SHEET
+	$EnemyName.text = Global.enemystats[Global.stage].NAME
 	enemyspeed = Global.enemystats[Global.stage].POWER_SPEED
 	update_ui()
 	update_shadows()
 
 func _process(delta):
+	if pshake > 0:
+		pshake -= delta*10
+	if pshake <= 0:
+		pshake = 0
+	if eshake > 0:
+		eshake -= delta*10
+	if eshake <= 0:
+		eshake = 0
 	time += delta
 	if time >= 2 and !jingleplayed:
 		update_status("Get ready...")
@@ -130,6 +142,7 @@ func _process(delta):
 			var next = [randi()%4,randi()%4]
 			nextpieces.append(next)
 		if attackpower >= 100 and attackglobaldelay <= 0:
+			var totalpower = 0
 			match Global.playerstats.ATK_CLASS_TYPE:
 				"SWORD":
 					player_anim_set(4)
@@ -146,21 +159,35 @@ func _process(delta):
 				roll.init(attackdice[dice],playerattack[1],0.25*dice)
 				add_child(roll)
 				playerdamage += attackdice[dice]
+				totalpower += attackdice[dice]
+			totalpower += playerattack[2]
+			for i in totalpower/2:
+				var myattackanim = attackanim.instance()
+				myattackanim.position = Vector2(28,160)
+				myattackanim.target = Vector2(220,32)
+				add_child(myattackanim)
 			playerdamage += playerattack[2]
 			attackglobaldelay += 1 + 0.25*attackdice.size()
 		if enemyattacktimer >= 100 and attackglobaldelay <= 0:
+			var totalpower = 0
 			enemy_anim_set(2)
 			enemyattacktimer -= 100
 			var attackdice = roll_individual_dice(enemyattack[1],enemyattack[2])
 			for dice in attackdice.size():
 				var roll = diceroll.instance()
-				#176, 8
-				roll.position = Vector2(220-16*dice,36)
+				roll.position = Vector2(220-16*dice,41)
 				roll.init(attackdice[dice],enemyattack[2],0.4*dice)
 				roll.enemy = true
 				add_child(roll)
 				enemydamage += attackdice[dice]
+				totalpower += attackdice[dice]
 			enemydamage += enemyattack[3]
+			totalpower += enemyattack[3]
+			for i in totalpower/2:
+				var myattackanim = attackanim.instance()
+				myattackanim.position = Vector2(220,32)
+				myattackanim.target = Vector2(28,160)
+				add_child(myattackanim)
 			attackglobaldelay += 1 + 0.4*attackdice.size()
 			for dice in enemyattack[0]:
 				var pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
@@ -174,6 +201,7 @@ func _process(delta):
 				field.set_cell(pos.x,pos.y,4)
 		if attackglobaldelay <= 0:
 			if playerdamage > 0:
+				eshake += 6
 				update_status("Dealt "+String(playerdamage)+" damage!")
 				player_anim_set(0)
 				$EnemyHurt.pitch_scale = rand_range(0.7,1.1)
@@ -182,6 +210,7 @@ func _process(delta):
 				ehp -= playerdamage
 				playerdamage = 0
 			if enemydamage > 0:
+				pshake += 6
 				$AnimationPlayer2.play("Hurt")
 				update_status("Took "+String(enemydamage)+" damage!")
 				enemy_anim_set(2)
@@ -234,12 +263,14 @@ func update_ui():
 			$PlayerWeaponType.region_rect.position = Vector2(0,56)
 	$PlayerStats.text = String(hp)+"/"+String(mhp)
 	$PlayerPower.text = String(playerattack[0])+"d"+String(playerattack[1])+"+"+String(playerattack[2])
-	$PlayerHPBar.region_rect.size.x = int(46*float(float(hp)/float(mhp)))
+	$PlayerHPBar.region_rect.size.x = int(clamp(46*float(float(hp)/float(mhp)),0,46))
 	$PlayerPOWBar.region_rect.size.x = int(35*float(float(attackpower)/100.0))
 	$EnemyStats.text = String(ehp)+"/"+String(emhp)
 	$EnemyStats2.text = String(enemyattack[0])+"dX+"+String(enemyattack[1])+"d"+String(enemyattack[2])+"+"+String(enemyattack[3])
-	$EnemyHPBar.region_rect.size.x = int(46*float(float(ehp)/float(emhp)))
+	$EnemyHPBar.region_rect.size.x = int(clamp(46*float(float(ehp)/float(emhp)),0,46))
 	$EnemyPOWBar.region_rect.size.x = int(35*float(enemyattacktimer/100))
+	$PlayerSprite.offset.x = rand_range(-pshake,pshake)
+	$EnemySprite.offset.x = rand_range(-eshake,eshake)
 
 
 func calculate_offset(rotate_state, mainpos):

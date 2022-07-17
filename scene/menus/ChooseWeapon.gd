@@ -19,12 +19,15 @@ func _process(delta):
 
 func _on_Sword_pressed():
 	choice = 0
+	$Sprite.region_rect.position = Vector2(32,16)
 	
 func _on_Spear_pressed():
 	choice = 1
+	$Sprite.region_rect.position = Vector2(32,48)
 	
 func _on_Bow_pressed():
 	choice = 2
+	$Sprite.region_rect.position = Vector2(32,32)
 
 
 func _on_Begin_pressed():
