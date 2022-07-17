@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://asset/gfx/ui.png" type="Texture" id=1]
 [ext_resource path="res://asset/fnt/x12y16pxMaruMonica.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scene/fx/DiceRoll.gd" type="Script" id=3]
+[ext_resource path="res://asset/sfx/playerattack.wav" type="AudioStream" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
@@ -101,3 +102,8 @@ __meta__ = {
 root_node = NodePath("../Label")
 anims/Default = SubResource( 2 )
 anims/RESET = SubResource( 3 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -1.748
+bus = "SFX"

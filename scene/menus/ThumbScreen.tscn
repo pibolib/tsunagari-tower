@@ -1,0 +1,322 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://asset/fnt/04B_03_.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://asset/theme/GameLarge.tres" type="Theme" id=2]
+[ext_resource path="res://asset/gfx/sparkle.png" type="Texture" id=3]
+[ext_resource path="res://asset/gfx/titlebg.png" type="Texture" id=4]
+[ext_resource path="res://asset/gfx/logo.png" type="Texture" id=5]
+[ext_resource path="res://scene/menus/TitleScreen.gd" type="Script" id=6]
+[ext_resource path="res://asset/gfx/ingame.png" type="Texture" id=7]
+
+[sub_resource type="TileSet" id=5]
+0/name = "0"
+0/texture = ExtResource( 7 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "1"
+1/texture = ExtResource( 7 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 16, 0, 16, 16 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+2/name = "2"
+2/texture = ExtResource( 7 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 32, 0, 16, 16 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
+3/name = "3"
+3/texture = ExtResource( 7 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 48, 0, 16, 16 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
+4/name = "4"
+4/texture = ExtResource( 7 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 0, 16, 16, 16 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape_one_way = false
+4/shape_one_way_margin = 0.0
+4/shapes = [  ]
+4/z_index = 0
+5/name = "5"
+5/texture = ExtResource( 7 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 16, 16, 16, 16 )
+5/tile_mode = 0
+5/occluder_offset = Vector2( 0, 0 )
+5/navigation_offset = Vector2( 0, 0 )
+5/shape_offset = Vector2( 0, 0 )
+5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+5/shape_one_way = false
+5/shape_one_way_margin = 0.0
+5/shapes = [  ]
+5/z_index = 0
+
+[sub_resource type="TileSet" id=6]
+0/name = "0"
+0/texture = ExtResource( 7 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 64, 0, 16, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "1"
+1/texture = ExtResource( 7 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 80, 0, 16, 32 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+2/name = "2"
+2/texture = ExtResource( 7 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 96, 0, 16, 32 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
+3/name = "3"
+3/texture = ExtResource( 7 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 112, 0, 16, 32 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0.0144231, 0.888158 ), 0.0, 0.0, 0, 0, Vector2( 0.25, 0.826754 ), 0.0, 0.0, 0, 0, Vector2( 0.504808, 0.914474 ), 0.0, 0.0, 0, 0, Vector2( 0.75, 0.800439 ), 0.0, 0.0, 0, 0, Vector2( 0.995192, 0.89693 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.287293, 0.861878, 1 )
+colors = PoolColorArray( 0.901961, 0.913725, 0.141176, 0, 0.90755, 0.917543, 0.186635, 1, 1, 1, 1, 1, 0.356863, 0.92549, 0.823529, 0 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 8
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 8
+font_data = ExtResource( 1 )
+
+[node name="TitleScreen" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="Playfield" type="Node2D" parent="."]
+position = Vector2( 32, 93 )
+z_index = 500
+
+[node name="Next" type="TileMap" parent="Playfield"]
+visible = false
+z_index = 20
+tile_set = SubResource( 5 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="NextDisplay" type="TileMap" parent="Playfield"]
+visible = false
+z_index = 20
+tile_set = SubResource( 5 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+tile_data = PoolIntArray( -327677, 1073741829, 0, -262140, 1073741829, 0, -65528, 1073741829, 0, -65527, 1073741829, 0, 131080, 1073741829, 0, 131081, 1073741829, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Field" type="TileMap" parent="Playfield"]
+tile_set = SubResource( 5 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+tile_data = PoolIntArray( -131069, 3, 0, -65534, 4, 0, -65533, 2, 0, -65532, 3, 0, 1, 2, 0, 2, 2, 0, 3, 0, 0, 4, 2, 0, 5, 3, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 3, 0, 65540, 2, 0, 65541, 2, 0, 65542, 3, 0, 131074, 0, 0, 131075, 3, 0, 131076, 0, 0, 131077, 0, 0, 131078, 2, 0, 196608, 1, 0, 196609, 1, 0, 196610, 0, 0, 196611, 0, 0, 196612, 4, 0, 196614, 0, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FieldShadows" type="TileMap" parent="Playfield"]
+modulate = Color( 1, 1, 1, 0.745098 )
+z_index = -10
+tile_set = SubResource( 6 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+tile_data = PoolIntArray( -131069, 0, 0, -65534, 0, 0, -65533, 0, 0, -65532, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196614, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SpecialShadows" type="TileMap" parent="Playfield"]
+visible = false
+modulate = Color( 1, 1, 1, 0.745098 )
+z_index = 10
+tile_set = SubResource( 6 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+tile_data = PoolIntArray( -327671, 0, 0, 458749, 0, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FieldBG" type="TileMap" parent="Playfield"]
+modulate = Color( 1, 1, 1, 0.745098 )
+z_index = -20
+tile_set = SubResource( 6 )
+cell_size = Vector2( 16, 12 )
+cell_half_offset = 1
+format = 1
+tile_data = PoolIntArray( -131069, 1073741825, 0, -65535, 1073741825, 0, -65534, 1073741825, 0, -65533, 1073741825, 0, -65532, 1073741825, 0, -65531, 1073741825, 0, 65535, 1073741827, 0, 0, 1073741825, 0, 1, 1073741825, 0, 2, 1073741825, 0, 3, 1073741825, 0, 4, 1073741825, 0, 5, 1073741825, 0, 6, 1073741825, 0, 7, 1073741826, 0, 131071, 1073741827, 0, 65536, 1073741825, 0, 65537, 1073741825, 0, 65538, 1073741825, 0, 65539, 1073741825, 0, 65540, 1073741825, 0, 65541, 1073741825, 0, 65542, 1073741825, 0, 65543, 1073741826, 0, 196607, 1073741827, 0, 131072, 1073741825, 0, 131073, 1073741825, 0, 131074, 1073741825, 0, 131075, 1073741825, 0, 131076, 1073741825, 0, 131077, 1073741825, 0, 131078, 1073741825, 0, 131079, 1073741826, 0, 262143, 1073741827, 0, 196608, 1073741825, 0, 196609, 1073741825, 0, 196610, 1073741825, 0, 196611, 1073741825, 0, 196612, 1073741825, 0, 196613, 1073741825, 0, 196614, 1073741825, 0, 196615, 1073741826, 0, 262146, 1073741825, 0, 262147, 1073741825, 0, 262148, 1073741825, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 250.0
+margin_bottom = 200.0
+color = Color( 0.00784314, 0.00392157, 0.0470588, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( 125, 100 )
+amount = 50
+lifetime = 10.0
+randomness = 0.31
+texture = ExtResource( 3 )
+emission_shape = 2
+emission_rect_extents = Vector2( 125, 100 )
+gravity = Vector2( 0, 0 )
+scale_amount = 1.2
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 125, 100 )
+z_index = 300
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Logo" type="Sprite" parent="."]
+position = Vector2( 79, 78 )
+z_index = 300
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Node2D" type="Node2D" parent="."]
+visible = false
+z_index = 500
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Button" type="Button" parent="Node2D"]
+visible = false
+margin_left = 8.0
+margin_top = 168.0
+margin_right = 64.0
+margin_bottom = 184.0
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 3 )
+text = "Game Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DamageDiceLabel" type="Label" parent="Node2D"]
+visible = false
+margin_left = 2.0
+margin_top = 192.0
+margin_right = 252.0
+margin_bottom = 208.0
+grow_horizontal = 2
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 4 )
+text = "(c) pibolib 2022"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Node2D/Button" to="." method="_on_Button_pressed"]

@@ -8,6 +8,12 @@ var time = 0
 var max_time = 1
 var animout = false
 var offset = 0
+var audio = false
+var enemy = false
+func _ready():
+	if enemy:
+		$AudioStreamPlayer.pitch_scale = 0.6
+
 func _process(delta):
 	time += delta
 	if time <= 1 + offset:
@@ -15,9 +21,12 @@ func _process(delta):
 		if tick <= 0:
 			tick = 0.1
 			$Label.text = String(randi()%max_value+1)
-	elif time > 1 + offset and time < 2:
+	elif time > 1 + offset and time < 3:
 		$Label.text = String(value)
-	elif time >= 2:
+		if !audio:
+			$AudioStreamPlayer.play()
+			audio = true
+	elif time >= 3:
 		if !animout:
 			$AnimationPlayer.play("Default")
 			animout = true

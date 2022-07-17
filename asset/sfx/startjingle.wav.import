@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/startjingle.wav-cd0bb2df279f895e99096c25d5068997.sample"
+
+[deps]
+
+source_file="res://asset/sfx/startjingle.wav"
+dest_files=[ "res://.import/startjingle.wav-cd0bb2df279f895e99096c25d5068997.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
