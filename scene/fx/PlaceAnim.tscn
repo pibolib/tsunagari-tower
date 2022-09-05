@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scene/fx/PlaceAnim.gd" type="Script" id=1]
 [ext_resource path="res://asset/gfx/sparkle.png" type="Texture" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=4]
+blend_mode = 3
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.563536 )
@@ -77,6 +80,7 @@ tracks/1/keys = {
 }
 
 [node name="PlaceAnim" type="Node2D"]
+material = SubResource( 4 )
 z_index = 100
 script = ExtResource( 1 )
 

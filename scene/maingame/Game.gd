@@ -4,6 +4,7 @@ var placeanim = preload("res://scene/fx/PlaceAnim.tscn")
 var clearanim = preload("res://scene/fx/ClearAnim.tscn")
 var diceroll = preload("res://scene/fx/DiceRoll.tscn")
 var attackanim = preload("res://scene/fx/BallTargetPoint.tscn")
+var popup = preload("res://scene/fx/Popup.tscn")
 
 onready var field = $Playfield/Field
 var nextpiece = [0,0]
@@ -13,9 +14,11 @@ var nextrotate = 0
 var mousepos = Vector2(0,0)
 var control_timer = 0
 var attackpower = 0
+var attackpowerdisplay = 0
 var hp = 30
 var mhp = 30
 var playerattack = [2,6,0] 
+var playerspecial = 0
 var weapontype = "SWORD"
 var ehp = 20
 var emhp = 20
@@ -32,6 +35,11 @@ var specialanimtimer = 0
 var enemyanimstate = 0
 var jingleplayed = false
 #enemystates: 0. idle a, 2. idle b, 3. attack, 4. hurt, 5. die
+var randomcolor = 0
+var randomstatus = 1
+var overwritelinkmod = 0
+var overwritelinkchain = 0
+var playerdamagetick = 0
 
 var score = 0
 var gameactive = false
@@ -64,6 +72,15 @@ func _ready():
 		Global.enemystats[Global.stage].ATK_DMG_MOD
 	]
 	$EnemySprite.texture = Global.enemystats[Global.stage].SPRITE_SHEET
+	if Global.stage == 10:
+		enemyattack = [5,Global.playerstats.ATK_DICE_COUNT,Global.playerstats.ATK_DICE_TYPE,Global.playerstats.ATK_DMG_MOD]
+		match Global.playerstats.ATK_CLASS_TYPE:
+			"SWORD":
+				$EnemySprite.texture = load("res://asset/gfx/spiritsword.png")
+			"BOW":
+				$EnemySprite.texture = load("res://asset/gfx/spiritbow.png")
+			"SPEAR":
+				$EnemySprite.texture = load("res://asset/gfx/spiritspear.png")
 	$EnemyName.text = Global.enemystats[Global.stage].NAME
 	enemyspeed = Global.enemystats[Global.stage].POWER_SPEED
 	update_ui()
@@ -78,6 +95,8 @@ func _process(delta):
 		eshake -= delta*10
 	if eshake <= 0:
 		eshake = 0
+	attackpowerdisplay = lerp(attackpowerdisplay,attackpower,2*delta)
+	attackpowerdisplay = lerp(attackpowerdisplay,attackpower,2*delta)
 	time += delta
 	if time >= 2 and !jingleplayed:
 		update_status("Get ready...")
@@ -86,10 +105,13 @@ func _process(delta):
 	if time >= 5 and hp > 0 and ehp > 0:
 		if !statusactive:
 			update_status("Game Start!")
-			if Global.stage != 9:
-				Global.current_bgm = 0
-			else:
-				Global.current_bgm = 1
+			match Global.stage:
+				10:
+					Global.current_bgm = 5
+				9:
+					Global.current_bgm = 1
+				_:
+					Global.current_bgm = 0
 			statusactive = true
 		gameactive = true
 	else:
@@ -122,6 +144,14 @@ func _process(delta):
 	update_ui()
 	update_next()
 	if gameactive:
+		if attackpower <= -25:
+			playerdamagetick += delta
+		if playerdamagetick >= 1:
+			playerdamagetick -= 1
+			if attackpower == -50:
+				hp -= max(2,ceil(mhp/50))
+			elif attackpower <= -25:
+				hp -= max(1,ceil(mhp/100))
 		if playeranimtime > 0:
 			playeranimtime -= delta
 		if playeranimtime <= 0:
@@ -139,7 +169,16 @@ func _process(delta):
 			if ehp > 0:
 				enemyattacktimer += enemyspeed*delta
 		if nextpieces.size() <= 1:
-			var next = [randi()%4,randi()%4]
+			var next = []
+			if randomstatus == 0:
+				next = [randomcolor,randomcolor]
+			else:
+				var rand = randi()%4
+				next = [randomcolor,(rand+int(rand==randomcolor))%4]
+			randomstatus += 1
+			if randomstatus == 4:
+				randomcolor = (randomcolor + 9)%4
+				randomstatus = 0
 			nextpieces.append(next)
 		if attackpower >= 100 and attackglobaldelay <= 0:
 			var totalpower = 0
@@ -199,16 +238,23 @@ func _process(delta):
 				placeanim1.position = field.map_to_world(pos)+Vector2(8,10)
 				field.add_child(placeanim1)
 				field.set_cell(pos.x,pos.y,4)
+			update_shadows()
 		if attackglobaldelay <= 0:
 			if playerdamage > 0:
 				eshake += 6
-				update_status("Dealt "+String(playerdamage)+" damage!")
+				if overwritelinkmod > 0:
+					update_status("Dealt "+String(playerdamage)+"+"+String(overwritelinkmod)+" damage!")
+				elif overwritelinkmod < 0:
+					update_status("Dealt "+String(playerdamage)+String(overwritelinkmod)+" damage!")
+				else:
+					update_status("Dealt "+String(playerdamage)+" damage!")
 				player_anim_set(0)
 				$EnemyHurt.pitch_scale = rand_range(0.7,1.1)
 				$EnemyHurt.playing = true
 				enemy_anim_set(3)
-				ehp -= playerdamage
+				ehp -= playerdamage + overwritelinkmod
 				playerdamage = 0
+				overwritelinkmod = 0
 			if enemydamage > 0:
 				pshake += 6
 				$AnimationPlayer2.play("Hurt")
@@ -241,9 +287,12 @@ func update_shadows():
 
 func update_next():
 	$Playfield/Next.clear()
-	$Playfield/Next.set_cell(nextpos.x,nextpos.y,5)
-	var offset = calculate_offset(nextrotate,nextpos)
-	$Playfield/Next.set_cell(nextpos.x+offset.x,nextpos.y+offset.y,5)
+	$Playfield/Next.set_cell(nextpos.x,nextpos.y,nextpiece[0])
+	var offset = calculate_offset(nextrotate,nextpos) 
+	if (Vector2(nextpos.x+offset.x,nextpos.y+offset.y) == bound_to_playfield(Vector2(nextpos.x+offset.x,nextpos.y+offset.y))) and $Playfield/Field.get_cell(nextpos.x+offset.x,nextpos.y+offset.y) != 4:
+		$Playfield/Next.set_cell(nextpos.x+offset.x,nextpos.y+offset.y,nextpiece[1])
+	else:
+		$Playfield/Next.set_cell(nextpos.x+offset.x,nextpos.y+offset.y,4)
 
 func update_ui():
 	$XP.text = "XP: "+String(score)
@@ -271,6 +320,31 @@ func update_ui():
 	$EnemyPOWBar.region_rect.size.x = int(35*float(enemyattacktimer/100))
 	$PlayerSprite.offset.x = rand_range(-pshake,pshake)
 	$EnemySprite.offset.x = rand_range(-eshake,eshake)
+	$PlayerPowerTag.text = String(round(attackpowerdisplay))+"%"
+	$EnemyPowerTag.text = String(int(enemyattacktimer))+"%"
+	$PerfectChain.visible = !(overwritelinkchain<=1)
+	$PerfectChain.text = String(overwritelinkchain)
+	$Warning.visible = (attackpower<=-25 or hp <= 0.2*mhp)
+	$Warning.text = ""
+	if attackpower == -50:
+		$Warning.text += "WARNING: POWER TOO LOW!!!\n"
+	elif attackpower <= -25:
+		$Warning.text += "WARNING: POWER LOW!\n"
+	if hp <= 0.2*mhp:
+		$Warning.text += "WARNING: HP LOW!\n"
+	if attackpower >= 0:
+		if round(attackpowerdisplay) < round(attackpower):
+			$PlayerPowerTag.modulate = Color(0.8,1,0.8)
+		elif round(attackpowerdisplay) > round(attackpower):
+			$PlayerPowerTag.modulate = Color(1,0.8,0.8)
+		else:
+			$PlayerPowerTag.modulate = Color(1,1,1)
+	elif attackpower == -50:
+		$PlayerPowerTag.modulate = Color(0.9,0,0)
+	elif attackpower <= -25:
+		$PlayerPowerTag.modulate = Color(0.9,0.2,0.2)
+	elif attackpower < 0:
+		$PlayerPowerTag.modulate = Color(0.9,0.6,0.6)
 
 
 func calculate_offset(rotate_state, mainpos):
@@ -316,22 +390,35 @@ func bound_to_playfield(position):
 func place_piece(position):
 	#big check to make sure second piece is in playfield
 	var offset = calculate_offset(nextrotate,nextpos)
+	var lostpower = 0
 	if position + calculate_offset(nextrotate,nextpos) == bound_to_playfield(position+calculate_offset(nextrotate,nextpos)) and field.get_cell(position.x,position.y) != 4 and field.get_cell(position.x+offset.x,position.y+offset.y) != 4:
 		if field.get_cell(position.x,position.y) != -1:
 			attackpower -= 3 + Global.upgrade_count_spd/2
+			lostpower += 3 + Global.upgrade_count_spd/2
 			var clearanimdestroy = clearanim.instance()
 			clearanimdestroy.position = field.map_to_world(position)+Vector2(8,8)
 			clearanimdestroy.destroy = true
 			clearanimdestroy.cleartime = 0
 			field.add_child(clearanimdestroy)
+			overwritelinkchain = 0
 		if field.get_cell(position.x+offset.x,position.y+offset.y) != -1:
+			lostpower += 3 + Global.upgrade_count_spd/2
 			attackpower -= 3 + Global.upgrade_count_spd/2
 			var clearanimdestroy = clearanim.instance()
 			clearanimdestroy.position = field.map_to_world(position+offset)+Vector2(8,8)
 			clearanimdestroy.destroy = true
 			clearanimdestroy.cleartime = 0
 			field.add_child(clearanimdestroy)
-		attackpower = clamp(attackpower,0,999)
+			overwritelinkchain = 0
+		if lostpower > 0:
+			var newpopup = popup.instance()
+			newpopup.position = Vector2(56,184)
+			newpopup.text = "-"+String(int(lostpower))+"%"
+			newpopup.speed = 4
+			newpopup.dir = Vector2(0,1)
+			newpopup.color = Color(0.8,0,0)
+			add_child(newpopup)
+		attackpower = clamp(attackpower,-50,999)
 		field.set_cell(position.x,position.y,nextpiece[0])
 		var placeanim1 = placeanim.instance()
 		placeanim1.position = field.map_to_world(position)+Vector2(8,10)
@@ -404,8 +491,8 @@ func test_clear_link():
 				for tile in pos_set:
 					j += 1
 					field.set_cell(tile.x,tile.y,-1)
-					totalscore += 10+floor(pos_set.size()/5) + 5*(Global.stage-1)
-					score += 10+floor(pos_set.size()/5) + 5*(Global.stage-1)
+					totalscore += 12+floor(pos_set.size()/4) + 6*(Global.stage-1)
+					score += 12+floor(pos_set.size()/4) + 6*(Global.stage-1)
 					attackpower += 2+(pos_set.size()/3)
 					totalpower += 2+(pos_set.size()/3)
 					var clearanim1 = clearanim.instance()
@@ -423,10 +510,10 @@ func test_clear_link():
 									clearanim2.cleartime = 0.5+0.05*j
 									field.add_child(clearanim2)
 									field.set_cell(tile.x+offset1.x,tile.y+offset1.y,-1)
-									score += 50
-									totalscore += 50
-									attackpower += 5
-									totalpower += 5
+									totalscore += 12+floor(pos_set.size()/4) + 6*(Global.stage-1)
+									score += 12+floor(pos_set.size()/4) + 6*(Global.stage-1)
+									attackpower += 2+(pos_set.size()/3)*1.25
+									totalpower += 2+(pos_set.size()/3)*1.25
 						1:
 							var offsets = [Vector2(0,-1),Vector2(1,0),Vector2(1,1),Vector2(0,1),Vector2(-1,1),Vector2(-1,0)]
 							for offset1 in offsets:
@@ -437,15 +524,19 @@ func test_clear_link():
 									clearanim2.cleartime = 0.5+0.05*j
 									field.add_child(clearanim2)
 									field.set_cell(tile.x+offset1.x,tile.y+offset1.y,-1)
-									score += 50
-									totalscore += 50
-									attackpower += 5
-									totalpower += 5
+									totalscore += 12+floor(pos_set.size()/4) + 6*(Global.stage-1)
+									score += 12+floor(pos_set.size()/4) + 6*(Global.stage-1)
+									attackpower += 2+(pos_set.size()/3)*1.25
+									totalpower += 2+(pos_set.size()/3)*1.25
 				update_status(String(j)+" LINK! +"+String(int(totalpower))+" POWER")
+				var newpopup = popup.instance()
+				newpopup.position = Vector2(56,184)
+				newpopup.text = "+"+String(int(totalpower))+"%"
+				newpopup.speed = 8
+				add_child(newpopup)
 				control_timer = 0.5+j * 0.05
 				hp += ceil(mhp/100)
 				hp = clamp(hp,0,mhp)
-				print(totalscore)
 				update_shadows()
 
 func roll_individual_dice(count, type):

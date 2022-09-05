@@ -14,7 +14,8 @@ var bgm_list = [
 	preload("res://asset/bgm/battle2.ogg"),
 	preload("res://asset/bgm/victory.ogg"),
 	preload("res://asset/bgm/title.ogg"),
-	preload("res://asset/bgm/victory_credits.ogg")
+	preload("res://asset/bgm/victory_credits.ogg"),
+	preload("res://asset/bgm/battle3.ogg"),
 ]
 #increasing strength has no negative effects, but increasing speed will cause greater penalties
 #for overwriting a piece in the playfield.
@@ -51,9 +52,9 @@ var weapon_base_spear = {
 var enemystats = [
 	{
 		"NAME": "Slime",
-		"HP": 20,
+		"HP": 10,
 		"ATK_DICE_FIELD": 0,
-		"ATK_DICE_COUNT": 2,
+		"ATK_DICE_COUNT": 1,
 		"ATK_DICE_TYPE": 2,
 		"ATK_DMG_MOD": 0,
 		"POWER_SPEED": 2,
@@ -61,59 +62,59 @@ var enemystats = [
 	}, #slime
 	{
 		"NAME": "Goblin",
-		"HP": 30,
+		"HP": 20,
 		"ATK_DICE_FIELD": 1,
 		"ATK_DICE_COUNT": 1,
 		"ATK_DICE_TYPE": 4,
-		"ATK_DMG_MOD": 2,
-		"POWER_SPEED": 4,
+		"ATK_DMG_MOD": 0,
+		"POWER_SPEED": 3,
 		"SPRITE_SHEET": preload("res://asset/gfx/goblin.png") 
 	}, #goblin
 	{
 		"NAME": "Bat",
-		"HP": 35,
+		"HP": 30,
 		"ATK_DICE_FIELD": 1,
 		"ATK_DICE_COUNT": 2,
 		"ATK_DICE_TYPE": 2,
 		"ATK_DMG_MOD": 1,
-		"POWER_SPEED": 6,
+		"POWER_SPEED": 5,
 		"SPRITE_SHEET": preload("res://asset/gfx/bat.png") 
 	}, #bat (no sprite implemented yet)
 	{
 		"NAME": "Blue Slime",
-		"HP": 50,
+		"HP": 45,
 		"ATK_DICE_FIELD": 2,
-		"ATK_DICE_COUNT": 1,
-		"ATK_DICE_TYPE": 6,
-		"ATK_DMG_MOD": 0,
+		"ATK_DICE_COUNT": 2,
+		"ATK_DICE_TYPE": 2,
+		"ATK_DMG_MOD": 1,
 		"POWER_SPEED": 5,
 		"SPRITE_SHEET": preload("res://asset/gfx/slime_2.png") 
 	}, #blue slime
 	{
 		"NAME": "Snake",
-		"HP": 60,
+		"HP": 50,
 		"ATK_DICE_FIELD": 2,
 		"ATK_DICE_COUNT": 1,
 		"ATK_DICE_TYPE": 4,
-		"ATK_DMG_MOD": 2,
-		"POWER_SPEED": 7,
+		"ATK_DMG_MOD": 1,
+		"POWER_SPEED": 5,
 		"SPRITE_SHEET": preload("res://asset/gfx/snake.png") 
 	}, #snake (no sprite)
 	{
 		"NAME": "Rat",
-		"HP": 70,
+		"HP": 65,
 		"ATK_DICE_FIELD": 2,
-		"ATK_DICE_COUNT": 3,
-		"ATK_DICE_TYPE": 2,
-		"ATK_DMG_MOD": 1,
+		"ATK_DICE_COUNT": 1,
+		"ATK_DICE_TYPE": 6,
+		"ATK_DMG_MOD": 2,
 		"POWER_SPEED": 8.5,
 		"SPRITE_SHEET": preload("res://asset/gfx/rat.png") 
 	}, #rat (no sprite)
 	{
 		"NAME": "Wall Devil",
-		"HP": 100,
+		"HP": 90,
 		"ATK_DICE_FIELD": 5,
-		"ATK_DICE_COUNT": 10,
+		"ATK_DICE_COUNT": 20,
 		"ATK_DICE_TYPE": 4,
 		"ATK_DMG_MOD": 2,
 		"POWER_SPEED": 1.25,
@@ -141,14 +142,24 @@ var enemystats = [
 	}, #iron demon (no sprite)
 	{
 		"NAME": "Dragon",
-		"HP": 150,
-		"ATK_DICE_FIELD": 3,
+		"HP": 160,
+		"ATK_DICE_FIELD": 4,
 		"ATK_DICE_COUNT": 3,
-		"ATK_DICE_TYPE": 10,
-		"ATK_DMG_MOD": 2,
-		"POWER_SPEED": 4.5,
+		"ATK_DICE_TYPE": 8,
+		"ATK_DMG_MOD": 3,
+		"POWER_SPEED": 4,
 		"SPRITE_SHEET": preload("res://asset/gfx/dragon.png") 
-	}, #blue slime
+	}, #dragon
+	{
+		"NAME": "Weapon Spirit",
+		"HP": 150,
+		"ATK_DICE_FIELD": 5,
+		"ATK_DICE_COUNT": 0,
+		"ATK_DICE_TYPE": 0,
+		"ATK_DMG_MOD": 0,
+		"POWER_SPEED": 6,
+		"SPRITE_SHEET": preload("res://asset/gfx/slime.png")
+	}, #weapon spirit (base)
 ]
 
 
