@@ -33,3 +33,7 @@ func _on_Website_pressed():
 
 func _on_Twitter_pressed():
 	OS.shell_open("https://twitter.com/pibolib")
+
+
+func _on_Continue_pressed():
+	Global.to_scene = "res://scene/maingame/Game.tscn"

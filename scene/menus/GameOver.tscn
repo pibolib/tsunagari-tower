@@ -122,6 +122,7 @@ __meta__ = {
 }
 
 [node name="Victory2" type="Label" parent="."]
+visible = false
 margin_left = 8.0
 margin_top = 32.0
 margin_right = 162.0
@@ -131,9 +132,6 @@ custom_fonts/font = SubResource( 4 )
 text = "Thanks for playing!
 
 Game by pibolib"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="XP" type="Label" parent="."]
 margin_left = 8.0
@@ -151,15 +149,25 @@ margin_left = 182.0
 margin_top = 176.0
 margin_right = 240.0
 margin_bottom = 192.0
+rect_pivot_offset = Vector2( 29, 8 )
 theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 2 )
 shortcut_in_tooltip = false
 text = "Menu"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Continue" type="Button" parent="."]
+margin_left = 182.0
+margin_top = 152.0
+margin_right = 240.0
+margin_bottom = 168.0
+rect_pivot_offset = Vector2( 29, 8 )
+theme = ExtResource( 3 )
+custom_fonts/font = SubResource( 2 )
+shortcut_in_tooltip = false
+text = "Continue"
 
 [node name="Discord" type="Button" parent="."]
+visible = false
 margin_left = 8.0
 margin_top = 72.0
 margin_right = 72.0
@@ -168,11 +176,9 @@ theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 2 )
 shortcut_in_tooltip = false
 text = "Discord Server"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Website" type="Button" parent="."]
+visible = false
 margin_left = 8.0
 margin_top = 96.0
 margin_right = 72.0
@@ -181,11 +187,9 @@ theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 2 )
 shortcut_in_tooltip = false
 text = "Website"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Twitter" type="Button" parent="."]
+visible = false
 margin_left = 8.0
 margin_top = 120.0
 margin_right = 72.0
@@ -194,11 +198,9 @@ theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 2 )
 shortcut_in_tooltip = false
 text = "Twitter"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="pressed" from="Menu" to="." method="_on_Menu_pressed"]
+[connection signal="pressed" from="Continue" to="." method="_on_Continue_pressed"]
 [connection signal="pressed" from="Discord" to="." method="_on_Discord_pressed"]
 [connection signal="pressed" from="Website" to="." method="_on_Website_pressed"]
 [connection signal="pressed" from="Twitter" to="." method="_on_Twitter_pressed"]

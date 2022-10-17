@@ -6,6 +6,7 @@ var xp = 0
 var totalxp = 0
 var upgrade_count_str = 0
 var upgrade_count_spd = 0
+var ex_score = 0
 var to_scene = ""
 var current_scene = ""
 var current_bgm = -1 #no bgm
@@ -184,4 +185,4 @@ func _process(delta):
 		$BGM.play()
 
 func change():
-	var scenechange = get_tree().change_scene_to(load(to_scene))
+	var _scenechange = get_tree().change_scene_to(load(to_scene))

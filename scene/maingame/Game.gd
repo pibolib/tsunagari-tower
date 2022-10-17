@@ -5,6 +5,7 @@ var clearanim = preload("res://scene/fx/ClearAnim.tscn")
 var diceroll = preload("res://scene/fx/DiceRoll.tscn")
 var attackanim = preload("res://scene/fx/BallTargetPoint.tscn")
 var popup = preload("res://scene/fx/Popup.tscn")
+var enemyattackanim = preload("res://scene/fx/EnemyAttack.tscn")
 
 onready var field = $Playfield/Field
 var nextpiece = [0,0]
@@ -22,6 +23,7 @@ var playerspecial = 0
 var weapontype = "SWORD"
 var ehp = 20
 var emhp = 20
+var enemygarbagepos = []
 var enemyattack = [2,2,2,0]
 var enemyattacktimer = 0 #out of 100
 var enemyspeed = 6
@@ -85,6 +87,8 @@ func _ready():
 	enemyspeed = Global.enemystats[Global.stage].POWER_SPEED
 	update_ui()
 	update_shadows()
+	for i in 10:
+		generate_garbage_pos(10)
 
 func _process(delta):
 	if pshake > 0:
@@ -228,17 +232,7 @@ func _process(delta):
 				myattackanim.target = Vector2(28,160)
 				add_child(myattackanim)
 			attackglobaldelay += 1 + 0.4*attackdice.size()
-			for dice in enemyattack[0]:
-				var pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
-				var attempts = 3
-				while field.get_cell(pos.x,pos.y) == 4 and attempts > 0:
-					attempts -= 1
-					pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
-				var placeanim1 = placeanim.instance()
-				placeanim1.position = field.map_to_world(pos)+Vector2(8,10)
-				field.add_child(placeanim1)
-				field.set_cell(pos.x,pos.y,4)
-			update_shadows()
+			create_garbage()
 		if attackglobaldelay <= 0:
 			if playerdamage > 0:
 				eshake += 6
@@ -279,6 +273,8 @@ func _input(event):
 				nextrotate = 5
 		elif event.is_action_pressed("action_place_piece") and control_timer <= 0:
 			place_piece(nextpos)
+		elif event.is_action_pressed("action_debug_die"):
+			enemydamage = 999
 
 func update_shadows():
 	$Playfield/FieldShadows.clear()
@@ -485,6 +481,7 @@ func test_clear_link():
 					break
 			if can_clear:
 				$LinkCreate.play()
+# warning-ignore:unused_variable
 				var totalscore = 0
 				var j = 0
 				var totalpower = 0
@@ -539,13 +536,13 @@ func test_clear_link():
 				hp = clamp(hp,0,mhp)
 				update_shadows()
 
-func roll_individual_dice(count, type):
+func roll_individual_dice(count := 1, type := 6):
 	var array = []
 	for i in count:
 		array.append(randi()%type+1)
 	return array
 
-func player_anim_set(state):
+func player_anim_set(state := 0):
 	match state:
 		0:
 			$PlayerSprite.region_rect.position = Vector2(0,0)
@@ -623,7 +620,7 @@ func player_anim_update():
 			playeranimstate = 10
 			playeranimtime = 100
 
-func enemy_anim_set(state):
+func enemy_anim_set(state := 0):
 	match state:
 		0:
 			$EnemySprite.region_rect.position = Vector2(0,0)
@@ -662,10 +659,38 @@ func enemy_anim_update():
 			enemyanimstate = 4
 			enemyanimtime = 100
 
-func update_status(text):
+func update_status(text := ""):
 	if $AnimationPlayer.is_playing():
 		$Status.text += "\n"+text
 	else:
 		$Status.text = text
 	$AnimationPlayer.stop()
 	$AnimationPlayer.play("StatusUpdate")
+
+func create_garbage(): # take out enemy garbage bit from main loop, put into its own function
+	for dice in enemyattack[0]:
+		var pos = enemygarbagepos[0]
+		var placeanim1 = placeanim.instance()
+		placeanim1.position = field.map_to_world(pos)+Vector2(8,10)
+		field.add_child(placeanim1)
+		field.set_cell(pos.x,pos.y,4)
+		enemygarbagepos.remove(0)
+		generate_garbage_pos()
+	update_shadows()
+	
+func generate_garbage_pos(attempts := 3):
+	var pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
+	while field.get_cell(pos.x,pos.y) == 4 and attempts > 0:
+		attempts -= 1
+		pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
+	enemygarbagepos.append(pos)
+
+
+func _on_EnemyGarbageAnim_timeout():
+	for i in enemyattack[0]:
+		if enemyattacktimer >= 66:
+			var pos = enemygarbagepos[i]
+			var enemyanim1 = enemyattackanim.instance()
+			enemyanim1.position = field.map_to_world(pos)+Vector2(8,10)
+			field.add_child(enemyanim1)
+	$EnemyGarbageAnim.start(1)
