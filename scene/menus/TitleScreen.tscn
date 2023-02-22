@@ -105,10 +105,7 @@ margin_bottom = 208.0
 grow_horizontal = 2
 theme = ExtResource( 4 )
 custom_fonts/font = SubResource( 4 )
-text = "(c) pibolib 2022"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "v1.1 (c) pibolib 2022"
 
 [connection signal="pressed" from="Node2D/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="Node2D/Credits" to="." method="_on_Credits_pressed"]

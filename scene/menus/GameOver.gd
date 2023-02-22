@@ -2,11 +2,27 @@ extends Node2D
 
 func _ready():
 	$XP.text = "Total XP: "+String(Global.totalxp) 
-	if Global.stage == 999:
+	$Stage.text = "Stage: "+String(Global.stage)
+	$Ending.text = "Ending: ???"
+	match Global.stage:
+		999:
+			$Stage.text = "Stage: FINAL"
+			$Ending.text = "Ending: Neutral"
+		1000:
+			$Stage.text = "Stage: EX"
+			$Ending.text = "Ending: Neutral"
+		1001:
+			$Stage.text = "Stage: EX"
+			$Ending.text = "Ending: Good"
+	if Global.stage >= 999:
 		$Victory.text = "Congratulations!"
 		$CPUParticles2D2.emitting = true
 		$TileMap.modulate = Color(0,0,0)
 		Global.current_bgm=4
+	if Global.stage >= 999:
+		$Continue.visible = false
+	if Global.stage == 10:
+		$Ending2.visible = true
 
 func _on_Menu_pressed():
 	Global.to_scene = "res://scene/menus/TitleScreen.tscn"
@@ -16,6 +32,7 @@ func _on_Menu_pressed():
 	Global.totalxp = 0
 	Global.upgrade_count_spd = 0
 	Global.upgrade_count_str = 0
+	Global.continue_count = 0
 	Global.playerstats = {
 	"HP": 30,
 	"ATK_CLASS_TYPE": "BOW",
@@ -36,4 +53,7 @@ func _on_Twitter_pressed():
 
 
 func _on_Continue_pressed():
+	$Continue.disabled = true
 	Global.to_scene = "res://scene/maingame/Game.tscn"
+	Global.continue_count += 1
+	Global.current_bgm = -1

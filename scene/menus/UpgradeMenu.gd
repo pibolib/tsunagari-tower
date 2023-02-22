@@ -5,9 +5,9 @@ var cost_dd = 1000
 
 func _ready():
 	Global.current_bgm = 2
-	$NextStage.text = "To Stage "+String(Global.stage+2)
+	$NextStage.text = "To "+Global.enemystats[Global.stage+1].STAGE_NAME
 
-func _process(delta):
+func _process(_delta):
 	cost_bd = 500+250*Global.upgrade_count_str
 	match Global.playerstats.ATK_CLASS_TYPE:
 		"SWORD":

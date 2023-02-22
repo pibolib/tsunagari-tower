@@ -10,7 +10,7 @@ func _ready():
 	tween.start()
 
 
-func _on_Tween_tween_completed(object, key):
+func _on_Tween_tween_completed(_object, _key):
 	var pop = POP.instance()
 	pop.position = position
 	get_parent().add_child(pop)

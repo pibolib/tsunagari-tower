@@ -20,6 +20,7 @@ var hp = 30
 var mhp = 30
 var playerattack = [2,6,0] 
 var playerspecial = 0
+var enemyspecial = 0
 var weapontype = "SWORD"
 var ehp = 20
 var emhp = 20
@@ -53,10 +54,19 @@ var statusactive = false
 var rewarded = false
 var pshake = 0
 var eshake = 0
+var excourse = false
+var extra_stage_phase = 0
+onready var extra_stage_timer = Timer.new()
 
 func _ready():
-	if Global.stage == 9:
+	add_child(extra_stage_timer)
+	if Global.stage == 9 or Global.stage == 10:
 		$BG.position.x -= 252
+	if Global.stage == 10:
+		$BG.tile_set = load("res://asset/gfx/BG2.tres")
+		$BG/Node2D/Node2D/ColorRect.color = Color("#249fde")
+		$BG/CPUParticles2D2.visible = false
+		$ExtraStageTimeLabel.visible = true
 	mhp = Global.playerstats.HP
 	hp = mhp
 	playerattack = [
@@ -75,14 +85,7 @@ func _ready():
 	]
 	$EnemySprite.texture = Global.enemystats[Global.stage].SPRITE_SHEET
 	if Global.stage == 10:
-		enemyattack = [5,Global.playerstats.ATK_DICE_COUNT,Global.playerstats.ATK_DICE_TYPE,Global.playerstats.ATK_DMG_MOD]
-		match Global.playerstats.ATK_CLASS_TYPE:
-			"SWORD":
-				$EnemySprite.texture = load("res://asset/gfx/spiritsword.png")
-			"BOW":
-				$EnemySprite.texture = load("res://asset/gfx/spiritbow.png")
-			"SPEAR":
-				$EnemySprite.texture = load("res://asset/gfx/spiritspear.png")
+		$EnemySprite.texture = load("res://asset/gfx/spiritsword.png")
 	$EnemyName.text = Global.enemystats[Global.stage].NAME
 	enemyspeed = Global.enemystats[Global.stage].POWER_SPEED
 	update_ui()
@@ -109,22 +112,32 @@ func _process(delta):
 	if time >= 5 and hp > 0 and ehp > 0:
 		if !statusactive:
 			update_status("Game Start!")
+			if Global.stage == 10:
+				start_extra_stage_timer()
 			match Global.stage:
 				10:
-					Global.current_bgm = 5
+					Global.current_bgm = 9
 				9:
-					Global.current_bgm = 1
-				_:
-					Global.current_bgm = 0
+					Global.current_bgm = 7
+				4,5,6,7,8:
+					Global.current_bgm = 8
+				0,1,2,3:
+					Global.current_bgm = 6
 			statusactive = true
 		gameactive = true
 	else:
 		if gameactive:
-			Global.current_bgm = -1
-			gameactive = false
+			if Global.stage != 10 or extra_stage_phase == 2:
+				Global.current_bgm = -1
+				gameactive = false
+			if hp <= 0:
+				Global.current_bgm = -1
+				gameactive = false
 		if hp <= 0:
 			if !gameover:
 				update_status("You are down!")
+				if Global.stage == 10:
+					Global.stage = 1000
 			player_anim_set(10)
 			gameover = true
 			timetilltrans += delta
@@ -132,21 +145,50 @@ func _process(delta):
 				Global.to_scene = "res://scene/menus/GameOver.tscn"
 		if ehp <= 0:
 			if timetilltrans < 2:
+				if !extra_stage_timer.is_stopped():
+					extra_stage_timer.stop()
 				timetilltrans += delta
 			else:
-				if Global.stage == 9 or Global.stage == 999:
-					Global.stage = 999
-					Global.to_scene = "res://scene/menus/GameOver.tscn"
-				else:
+				if Global.stage == 10:
+					match extra_stage_phase:
+						0:
+							start_extra_stage_timer()
+							ehp = 95
+							$EnemySprite.texture = load("res://asset/gfx/spiritspear.png")
+							timetilltrans = 0
+							enemy_anim_set(0)
+							win = false
+						1:
+							start_extra_stage_timer()
+							ehp = 90
+							$EnemySprite.texture = load("res://asset/gfx/spiritbow.png")
+							timetilltrans = 0
+							enemy_anim_set(0)
+							win = false
+						2:
+							Global.stage = 1001
+							Global.to_scene = "res://scene/menus/GameOver.tscn"
+					extra_stage_phase += 1
+				elif Global.stage == 9:
+					if Global.continue_count > 0:
+						Global.stage = 999
+						Global.to_scene = "res://scene/menus/GameOver.tscn"
+					else:
+						Global.to_scene = "res://scene/menus/UpgradeMenu.tscn"
+				elif Global.stage < 12:
 					Global.to_scene = "res://scene/menus/UpgradeMenu.tscn"
 			if !win:
-				update_status("Enemy Defeated!")
-				Global.xp += score
-				Global.totalxp += score
+				if Global.stage == 10 and extra_stage_phase < 3:
+					update_status("Phase Clear!")
+				else:
+					update_status("Enemy Defeated!")
+					Global.xp += score
+					Global.totalxp += score
+					enemy_anim_set(4)
 				win = true
-			enemy_anim_set(4)
 	update_ui()
 	update_next()
+	update_shadows()
 	if gameactive:
 		if attackpower <= -25:
 			playerdamagetick += delta
@@ -197,7 +239,6 @@ func _process(delta):
 			var attackdice = roll_individual_dice(playerattack[0],playerattack[1])
 			for dice in attackdice.size():
 				var roll = diceroll.instance()
-				#176, 8
 				roll.position = Vector2(8+16*dice,176)
 				roll.init(attackdice[dice],playerattack[1],0.25*dice)
 				add_child(roll)
@@ -267,10 +308,14 @@ func _input(event):
 		if event.is_action_pressed("action_rotate_cw_1shot") or event.is_action_pressed("action_rotate_cw"):
 			nextrotate += 1
 			nextrotate = nextrotate % 6
+			update_next()
+			$Rotate.play()
 		elif event.is_action_pressed("action_rotate_ccw_1shot") or event.is_action_pressed("action_rotate_ccw"):
 			nextrotate -= 1
 			if nextrotate < 0:
 				nextrotate = 5
+			update_next()
+			$Rotate.play()
 		elif event.is_action_pressed("action_place_piece") and control_timer <= 0:
 			place_piece(nextpos)
 		elif event.is_action_pressed("action_debug_die"):
@@ -279,6 +324,8 @@ func _input(event):
 func update_shadows():
 	$Playfield/FieldShadows.clear()
 	for tile in field.get_used_cells():
+		$Playfield/FieldShadows.set_cell(tile.x,tile.y,0)
+	for tile in $Playfield/NextDisplay.get_used_cells():
 		$Playfield/FieldShadows.set_cell(tile.x,tile.y,0)
 
 func update_next():
@@ -322,6 +369,7 @@ func update_ui():
 	$PerfectChain.text = String(overwritelinkchain)
 	$Warning.visible = (attackpower<=-25 or hp <= 0.2*mhp)
 	$Warning.text = ""
+	$ExtraStageTimeLabel.text = "%2.1f" % extra_stage_timer.time_left
 	if attackpower == -50:
 		$Warning.text += "WARNING: POWER TOO LOW!!!\n"
 	elif attackpower <= -25:
@@ -415,23 +463,20 @@ func place_piece(position):
 			newpopup.color = Color(0.8,0,0)
 			add_child(newpopup)
 		attackpower = clamp(attackpower,-50,999)
-		field.set_cell(position.x,position.y,nextpiece[0])
-		var placeanim1 = placeanim.instance()
-		placeanim1.position = field.map_to_world(position)+Vector2(8,10)
-		field.add_child(placeanim1)
-		field.set_cell(position.x+offset.x,position.y+offset.y,nextpiece[1])
-		var placeanim2 = placeanim.instance()
-		placeanim2.position = field.map_to_world(position+offset)+Vector2(8,10)
-		field.add_child(placeanim2)
+		playfield_add_piece(position,nextpiece[0])
+		playfield_add_piece(position+offset,nextpiece[1])
 		test_clear_link()
 		update_shadows()
 		$Place.pitch_scale = rand_range(0.95,1.05)
 		$Place.play()
 		nextpiece = nextpieces[0]
 		nextpieces.remove(0)
-	else:
-		#do nothing
-		pass
+
+func playfield_add_piece(position = Vector2(0,0), type = 0):
+	var placeanim1 = placeanim.instance()
+	placeanim1.position = field.map_to_world(position)+Vector2(8,10)
+	field.add_child(placeanim1)
+	field.set_cell(position.x,position.y,type)
 
 func test_clear_link():
 	var color = 0
@@ -487,7 +532,12 @@ func test_clear_link():
 				var totalpower = 0
 				for tile in pos_set:
 					j += 1
+					#if $Playfield/FieldBG.get_cell(tile.x,tile.y) == color+4:
+						#attackpower += 2
+						#totalpower += 2
+						#score += 5
 					field.set_cell(tile.x,tile.y,-1)
+					#$Playfield/FieldBG.set_cell(tile.x,tile.y,color+4)
 					totalscore += 12+floor(pos_set.size()/4) + 6*(Global.stage-1)
 					score += 12+floor(pos_set.size()/4) + 6*(Global.stage-1)
 					attackpower += 2+(pos_set.size()/3)
@@ -670,10 +720,7 @@ func update_status(text := ""):
 func create_garbage(): # take out enemy garbage bit from main loop, put into its own function
 	for dice in enemyattack[0]:
 		var pos = enemygarbagepos[0]
-		var placeanim1 = placeanim.instance()
-		placeanim1.position = field.map_to_world(pos)+Vector2(8,10)
-		field.add_child(placeanim1)
-		field.set_cell(pos.x,pos.y,4)
+		playfield_add_piece(pos,4)
 		enemygarbagepos.remove(0)
 		generate_garbage_pos()
 	update_shadows()
@@ -685,7 +732,6 @@ func generate_garbage_pos(attempts := 3):
 		pos = bound_to_playfield(Vector2(randi()%5+1,randi()%7-2))
 	enemygarbagepos.append(pos)
 
-
 func _on_EnemyGarbageAnim_timeout():
 	for i in enemyattack[0]:
 		if enemyattacktimer >= 66:
@@ -694,3 +740,10 @@ func _on_EnemyGarbageAnim_timeout():
 			enemyanim1.position = field.map_to_world(pos)+Vector2(8,10)
 			field.add_child(enemyanim1)
 	$EnemyGarbageAnim.start(1)
+
+func start_extra_stage_timer():
+	extra_stage_timer.start(90-5*extra_stage_phase)
+	yield(extra_stage_timer, "timeout")
+	enemydamage = 999
+	enemyattacktimer = 0
+	extra_stage_timer.stop()

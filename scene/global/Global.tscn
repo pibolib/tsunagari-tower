@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scene/global/Global.gd" type="Script" id=1]
+[ext_resource path="res://asset/theme/GameLarge.tres" type="Theme" id=2]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -87,6 +88,44 @@ margin_right = 250.0
 margin_bottom = 200.0
 mouse_filter = 2
 color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Debug" type="ColorRect" parent="CanvasLayer"]
+visible = false
+margin_right = 250.0
+margin_bottom = 112.0
+theme = ExtResource( 2 )
+color = Color( 0, 0, 0, 0.243137 )
+
+[node name="SetStage" type="Button" parent="CanvasLayer/Debug"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 80.0
+margin_bottom = 24.0
+text = "Set Stage"
+
+[node name="SetXP" type="Button" parent="CanvasLayer/Debug"]
+margin_left = 8.0
+margin_top = 32.0
+margin_right = 80.0
+margin_bottom = 48.0
+text = "Set XP"
+
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Debug"]
+margin_left = 88.0
+margin_top = 8.0
+margin_right = 128.0
+margin_bottom = 24.0
+theme = ExtResource( 2 )
+max_value = 999.0
+
+[node name="SpinBox2" type="SpinBox" parent="CanvasLayer/Debug"]
+margin_left = 88.0
+margin_top = 32.0
+margin_right = 144.0
+margin_bottom = 48.0
+theme = ExtResource( 2 )
+max_value = 999999.0
+step = 500.0
+
+[connection signal="pressed" from="CanvasLayer/Debug/SetStage" to="." method="_on_SetStage_pressed"]
+[connection signal="pressed" from="CanvasLayer/Debug/SetXP" to="." method="_on_SetXP_pressed"]

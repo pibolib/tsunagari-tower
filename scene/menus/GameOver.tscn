@@ -117,9 +117,6 @@ margin_right = 76.0
 margin_bottom = 24.0
 theme = ExtResource( 3 )
 text = "Game Over..."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Victory2" type="Label" parent="."]
 visible = false
@@ -135,14 +132,37 @@ Game by pibolib"
 
 [node name="XP" type="Label" parent="."]
 margin_left = 8.0
-margin_top = 176.0
+margin_top = 24.0
 margin_right = 92.0
-margin_bottom = 192.0
+margin_bottom = 40.0
 theme = ExtResource( 3 )
 text = "Total XP: ???"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Stage" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 40.0
+margin_right = 92.0
+margin_bottom = 56.0
+theme = ExtResource( 3 )
+text = "Stage: ?"
+
+[node name="Ending" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 56.0
+margin_right = 92.0
+margin_bottom = 72.0
+theme = ExtResource( 3 )
+text = "Ending: ???"
+
+[node name="Ending2" type="Label" parent="."]
+visible = false
+margin_left = 8.0
+margin_top = 72.0
+margin_right = 92.0
+margin_bottom = 88.0
+theme = ExtResource( 3 )
+text = "Clear all stages without continues to try
+EXTRA STAGE."
 
 [node name="Menu" type="Button" parent="."]
 margin_left = 182.0

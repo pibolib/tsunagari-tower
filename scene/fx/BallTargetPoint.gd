@@ -23,7 +23,7 @@ func _process(delta):
 		velocity *= delta*10
 	else:
 		velocity = Vector2(0,0)
-		position.move_toward(target, rate*delta)
+		position = position.move_toward(target, rate*delta)
 		rate += delta
 	if position.distance_to(target) < 10 or position.distance_to(origin) > 400:
 		if !$AnimationPlayer.is_playing():
