@@ -127,7 +127,7 @@ func _process(delta):
 		gameactive = true
 	else:
 		if gameactive:
-			if Global.stage != 10 or extra_stage_phase == 2:
+			if extra_stage_phase == 2:
 				Global.current_bgm = -1
 				gameactive = false
 			if hp <= 0:
@@ -319,7 +319,7 @@ func _input(event):
 		elif event.is_action_pressed("action_place_piece") and control_timer <= 0:
 			place_piece(nextpos)
 		elif event.is_action_pressed("action_debug_die"):
-			enemydamage = 999
+			playerdamage = 999
 
 func update_shadows():
 	$Playfield/FieldShadows.clear()

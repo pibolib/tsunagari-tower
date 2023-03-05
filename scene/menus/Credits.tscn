@@ -101,12 +101,7 @@ theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 4 )
 text = "Thanks for playing!
 
-Game by pibolib (@pibolib on Twitter)
-
-Developed in less than 50 hours for GMTK Jam 2022"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+Game by pibolib"
 
 [node name="XP" type="Label" parent="."]
 margin_left = 8.0
@@ -158,17 +153,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Twitter" type="Button" parent="."]
-margin_left = 8.0
-margin_top = 144.0
-margin_right = 72.0
-margin_bottom = 160.0
-theme = ExtResource( 3 )
-custom_fonts/font = SubResource( 2 )
-shortcut_in_tooltip = false
-text = "Twitter"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [connection signal="pressed" from="Menu" to="." method="_on_Menu_pressed"]
+[connection signal="pressed" from="Discord" to="." method="_on_Discord_pressed"]
+[connection signal="pressed" from="Website" to="." method="_on_Website_pressed"]

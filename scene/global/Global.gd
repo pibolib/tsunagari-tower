@@ -325,12 +325,13 @@ func _process(delta):
 	elif $BGM.stream != bgm_list[current_bgm]:
 		$BGM.volume_db = 0
 		$BGM.stream = bgm_list[current_bgm]
+		#print(current_bgm)
 	if !$BGM.playing and current_bgm != -1:
 		$BGM.play()
 
 func change():
 	var _scenechange = get_tree().change_scene_to(load(to_scene))
-	print(Global.stage)
+	#print(Global.stage)
 
 
 func _on_SetStage_pressed():

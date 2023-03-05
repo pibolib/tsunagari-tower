@@ -1,6 +1,7 @@
 extends Node2D
 
 func _ready():
+	Global.current_bgm = 3
 	$XP.text = "Total XP: "+String(Global.totalxp) 
 	$Stage.text = "Stage: "+String(Global.stage)
 	$Ending.text = "Ending: ???"
@@ -41,19 +42,16 @@ func _on_Menu_pressed():
 	"ATK_DMG_MOD": 1,
 	}
 
-
-func _on_Discord_pressed():
-	OS.shell_open("https://discord.gg/fvfHqEQEF7")
-
-func _on_Website_pressed():
-	OS.shell_open("https://www.pibolib.xyz/")
-
-func _on_Twitter_pressed():
-	OS.shell_open("https://twitter.com/pibolib")
-
-
 func _on_Continue_pressed():
 	$Continue.disabled = true
 	Global.to_scene = "res://scene/maingame/Game.tscn"
 	Global.continue_count += 1
 	Global.current_bgm = -1
+
+
+func _on_Discord_pressed():
+	OS.shell_open("https://discord.gg/pPVncFZW8v")
+
+
+func _on_Website_pressed():
+	OS.shell_open("https://www.pibolib.xyz")
