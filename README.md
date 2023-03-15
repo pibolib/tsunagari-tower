@@ -1,5 +1,7 @@
 # TSUNAGARI TOWER: Phoebe's Ascent
 
+- [itch](https://pibolib.itch.io/tsunagari-tower)
+
 A puzzle game developed by pibolib, originally created for GMTK Game Jam 2022.
 
 Note: This project is completed, and will no longer be actively worked on. See [my site](https://www.pibolib.xyz) or [my YouTube channel](https://www.youtube.com/@pibolib) for information on new projects.
